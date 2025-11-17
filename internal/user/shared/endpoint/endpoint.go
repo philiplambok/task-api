@@ -2,7 +2,7 @@ package endpoint
 
 import (
 	"github.com/go-chi/chi/v5"
-	"github.com/philiplambok/task-api/internal/auth/shared/middleware"
+	"github.com/philiplambok/task-api/internal/auth/login/middleware"
 	"github.com/philiplambok/task-api/internal/user/create"
 	"github.com/philiplambok/task-api/internal/user/profile"
 	"github.com/philiplambok/task-api/internal/user/shared/repository"
