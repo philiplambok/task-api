@@ -13,6 +13,7 @@ type CreateTask struct {
 // CreateTaskResult represents the result of creating a new task
 type CreateTaskResult struct {
 	ID        int64
+	UUID      string
 	CreatedAt time.Time
 }
 

@@ -24,11 +24,11 @@ func (r *Repository) CreateTask(ctx context.Context, params datamodel.CreateTask
 		return nil, err
 	}
 
-	// Insert the task and return the id and created_at timestamp
+	// Insert the task and return the id, uuid, and created_at timestamp
 	taskQuery := `
 		INSERT INTO tasks (user_id, list_id, title, description, deadline, is_done, created_at, updated_at)
 		VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())
-		RETURNING id, created_at
+		RETURNING id, uuid, created_at
 	`
 
 	err = r.db.WithContext(ctx).Raw(

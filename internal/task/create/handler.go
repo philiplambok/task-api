@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	"strconv"
 
 	"github.com/go-chi/render"
 	"github.com/oapi-codegen/runtime/types"
@@ -79,7 +78,7 @@ func (h *Handler) CreateTask(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var resp v1.CreateTaskResponse
-	resp.Data.Task.Id = strconv.FormatInt(result.ID, 10)
+	resp.Data.Task.Id = result.UUID
 	resp.Data.Task.Title = result.Title
 	resp.Data.Task.Description = result.Description
 	if result.Deadline != nil {

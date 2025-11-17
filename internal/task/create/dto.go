@@ -12,7 +12,7 @@ type CreateTaskDTO struct {
 
 // CreateTaskResultDTO represents the result of creating a task
 type CreateTaskResultDTO struct {
-	ID          int64
+	UUID        string
 	Title       string
 	Description *string
 	Deadline    *time.Time

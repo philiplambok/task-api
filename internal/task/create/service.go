@@ -50,7 +50,7 @@ func (s *Service) CreateTask(ctx context.Context, userID int64, dto *CreateTaskD
 	}
 
 	return &CreateTaskResultDTO{
-		ID:          result.ID,
+		UUID:        result.UUID,
 		Title:       dto.Title,
 		Description: dto.Description,
 		Deadline:    deadline,
