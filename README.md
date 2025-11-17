@@ -5,4 +5,5 @@ Implementing clean architecture in a Go backend API application.
 ## Features
 - User create
 - User login
-- Task creation (WIP)
+- Task creation
+- Task listing (Partially, need to handle pagination)
