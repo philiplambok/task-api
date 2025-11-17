@@ -114,6 +114,37 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
   /v1/tasks:
+    get:
+      summary: List all tasks for authenticated user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: is_done
+          in: query
+          description: Filter tasks by completion status. If not provided, returns all tasks (both completed and incomplete).
+          required: false
+          schema:
+            type: boolean
+          example: false
+      responses:
+        '200':
+          description: Tasks retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTasksResponse'
+        '401':
+          description: Unauthorized - Invalid or missing authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       summary: Create a new task
       security:
@@ -302,6 +333,20 @@ components:
           properties:
             task:
               $ref: '#/components/schemas/Task'
+    ListTasksResponse:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - tasks
+          properties:
+            tasks:
+              type: array
+              items:
+                $ref: '#/components/schemas/Task'
     ErrorResponse:
       type: object
       required:

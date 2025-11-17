@@ -20,6 +20,7 @@ type CreateTaskResult struct {
 // Task represents a task retrieved from the database
 type Task struct {
 	ID          int64
+	UUID        string
 	UserID      int64
 	Title       string
 	Description *string
@@ -27,4 +28,10 @@ type Task struct {
 	IsDone      bool
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
+}
+
+// ListTasksParams represents the parameters for listing tasks
+type ListTasksParams struct {
+	UserID int64
+	IsDone *bool // nil means no filter, otherwise filter by the value
 }

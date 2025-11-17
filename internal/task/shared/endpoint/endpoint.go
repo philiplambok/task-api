@@ -4,6 +4,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/philiplambok/task-api/internal/task/common/repository"
 	"github.com/philiplambok/task-api/internal/task/create"
+	"github.com/philiplambok/task-api/internal/task/list"
 	"gorm.io/gorm"
 )
 
@@ -13,16 +14,18 @@ import (
 func NewEndpoint(db *gorm.DB) *chi.Mux {
 	router := chi.NewMux()
 
+	// Shared repository for all features
+	repo := repository.NewRepository(db)
+
+	// List feature
+	listHandler := list.NewHandler(repo)
+	router.Get("/", listHandler.ListTasks)
+
 	// Create feature
-	createRepo := repository.NewRepository(db)
-	createHandler := create.NewHandler(createRepo)
+	createHandler := create.NewHandler(repo)
 	router.Post("/", createHandler.CreateTask)
 
 	// Future features will be registered here:
-	// List feature
-	// listRepo := repository.NewRepository(db)
-	// listHandler := list.NewHandler(listRepo)
-	// router.Get("/", listHandler.ListTasks)
 
 	// Show feature
 	// showRepo := repository.NewRepository(db)

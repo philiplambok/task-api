@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/render"
+	"github.com/google/uuid"
 	"github.com/oapi-codegen/runtime/types"
 	v1 "github.com/philiplambok/task-api/internal/pkg/api/v1"
 	pkgctx "github.com/philiplambok/task-api/internal/pkg/ctx"
@@ -77,8 +78,14 @@ func (h *Handler) CreateTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	taskUUID, err := uuid.Parse(result.UUID)
+	if err != nil {
+		httperror.Handle(w, r, err)
+		return
+	}
+
 	var resp v1.CreateTaskResponse
-	resp.Data.Task.Id = result.UUID
+	resp.Data.Task.Id = taskUUID
 	resp.Data.Task.Title = result.Title
 	resp.Data.Task.Description = result.Description
 	if result.Deadline != nil {
