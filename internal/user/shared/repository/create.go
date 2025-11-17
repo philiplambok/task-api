@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgconn"
+	commondatamodel "github.com/philiplambok/task-api/internal/common/datamodel"
 	"github.com/philiplambok/task-api/internal/user/shared/datamodel"
 	"github.com/philiplambok/task-api/internal/user/shared/domain"
 )
@@ -16,12 +17,12 @@ func (r *Repository) CreateUser(ctx context.Context, params datamodel.CreateUser
 
 	// Use raw SQL to insert and return the created_at timestamp
 	query := `
-		INSERT INTO users (email, password_digest, created_at, updated_at)
-		VALUES ($1, $2, NOW(), NOW())
+		INSERT INTO users (email, password_digest, status, created_at, updated_at)
+		VALUES ($1, $2, $3, NOW(), NOW())
 		RETURNING created_at
 	`
 
-	err := r.db.WithContext(ctx).Raw(query, params.Email, params.PasswordDigest).Scan(&createdAt).Error
+	err := r.db.WithContext(ctx).Raw(query, params.Email, params.PasswordDigest, commondatamodel.UserActive).Scan(&createdAt).Error
 	if err != nil {
 		// Check if it's a unique constraint violation on email
 		var pgErr *pgconn.PgError
