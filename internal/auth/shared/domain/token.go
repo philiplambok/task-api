@@ -8,16 +8,18 @@ import (
 
 // TokenClaims represents the JWT claims for user authentication
 type TokenClaims struct {
-	Email string `json:"email"`
+	UserID int64  `json:"user_id"`
+	Email  string `json:"email"`
 	jwt.RegisteredClaims
 }
 
 // GenerateToken generates a JWT token for a user
-func GenerateToken(email string, secret string, expirationHours int) (string, time.Time, error) {
+func GenerateToken(userID int64, email string, secret string, expirationHours int) (string, time.Time, error) {
 	expiresAt := time.Now().Add(time.Duration(expirationHours) * time.Hour)
 
 	claims := TokenClaims{
-		Email: email,
+		UserID: userID,
+		Email:  email,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expiresAt),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),

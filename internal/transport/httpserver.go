@@ -53,7 +53,7 @@ func NewHTTPServer(config internal.Config, db *gorm.DB) *HTTPServer {
 	))
 
 	authEndpoint := authendpoint.NewEndpoint(db, config.JWT.Secret, config.JWT.ExpirationHours)
-	userEndpoint := userendpoint.NewEndpoint(db)
+	userEndpoint := userendpoint.NewEndpoint(db, config.JWT.Secret)
 	routes.Route("/v1", func(v1 chi.Router) {
 		v1.Mount("/auth", authEndpoint)
 		v1.Mount("/users", userEndpoint)

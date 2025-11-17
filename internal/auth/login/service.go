@@ -48,7 +48,7 @@ func (s *Service) CreateUserAuthToken(ctx context.Context, dto *LoginDTO) (*Logi
 	}
 
 	// Generate token
-	token, expiresAt, err := domain.GenerateToken(user.Email, s.jwtSecret, s.tokenExpHours)
+	token, expiresAt, err := domain.GenerateToken(user.ID, user.Email, s.jwtSecret, s.tokenExpHours)
 	if err != nil {
 		return nil, err
 	}
