@@ -1,10 +1,10 @@
-package middleware
+package login
 
 import (
 	"net/http"
 	"strings"
 
-	"github.com/philiplambok/task-api/internal/auth/shared/domain"
+	"github.com/philiplambok/task-api/internal/auth/common/domain"
 	"github.com/philiplambok/task-api/internal/pkg/ctx"
 	"github.com/philiplambok/task-api/internal/pkg/httperror"
 )

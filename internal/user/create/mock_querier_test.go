@@ -14,7 +14,7 @@ import (
 	reflect "reflect"
 	time "time"
 
-	datamodel "github.com/philiplambok/task-api/internal/user/shared/datamodel"
+	datamodel "github.com/philiplambok/task-api/internal/user/common/datamodel"
 	gomock "go.uber.org/mock/gomock"
 )
 

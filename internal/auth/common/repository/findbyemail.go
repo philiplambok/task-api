@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/philiplambok/task-api/internal/auth/shared/datamodel"
+	"github.com/philiplambok/task-api/internal/auth/common/datamodel"
 	commondatamodel "github.com/philiplambok/task-api/internal/common/datamodel"
 	"gorm.io/gorm"
 )

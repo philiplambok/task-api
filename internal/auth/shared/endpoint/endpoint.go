@@ -3,7 +3,7 @@ package endpoint
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/philiplambok/task-api/internal/auth/login"
-	"github.com/philiplambok/task-api/internal/auth/shared/repository"
+	"github.com/philiplambok/task-api/internal/auth/common/repository"
 	"gorm.io/gorm"
 )
 

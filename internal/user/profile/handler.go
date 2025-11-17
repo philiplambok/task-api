@@ -8,7 +8,7 @@ import (
 	"github.com/philiplambok/task-api/internal/pkg/ctx"
 	v1 "github.com/philiplambok/task-api/internal/pkg/api/v1"
 	"github.com/philiplambok/task-api/internal/pkg/httperror"
-	"github.com/philiplambok/task-api/internal/user/shared/datamodel"
+	"github.com/philiplambok/task-api/internal/user/common/datamodel"
 )
 
 //go:generate go run go.uber.org/mock/mockgen@latest -destination=mock_querier_test.go -package=profile -source=handler.go

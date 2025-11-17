@@ -7,8 +7,8 @@ import (
 
 	"github.com/jackc/pgx/v5/pgconn"
 	commondatamodel "github.com/philiplambok/task-api/internal/common/datamodel"
-	"github.com/philiplambok/task-api/internal/user/shared/datamodel"
-	"github.com/philiplambok/task-api/internal/user/shared/domain"
+	"github.com/philiplambok/task-api/internal/user/common/datamodel"
+	"github.com/philiplambok/task-api/internal/user/common/domain"
 )
 
 // CreateUser creates a new user in the database and returns the created_at timestamp

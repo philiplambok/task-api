@@ -10,7 +10,7 @@ import (
 	v1 "github.com/philiplambok/task-api/internal/pkg/api/v1"
 	"github.com/philiplambok/task-api/internal/pkg/httperror"
 	"github.com/philiplambok/task-api/internal/pkg/validator"
-	"github.com/philiplambok/task-api/internal/user/shared/domain"
+	"github.com/philiplambok/task-api/internal/user/common/domain"
 )
 
 //go:generate go run go.uber.org/mock/mockgen@latest -destination=mock_servicer_test.go -package=create -source=handler.go

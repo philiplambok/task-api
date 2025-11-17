@@ -13,7 +13,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	datamodel "github.com/philiplambok/task-api/internal/auth/shared/datamodel"
+	datamodel "github.com/philiplambok/task-api/internal/auth/common/datamodel"
 	gomock "go.uber.org/mock/gomock"
 )
 

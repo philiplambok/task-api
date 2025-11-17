@@ -2,10 +2,10 @@ package endpoint
 
 import (
 	"github.com/go-chi/chi/v5"
-	"github.com/philiplambok/task-api/internal/auth/login/middleware"
+	"github.com/philiplambok/task-api/internal/auth/login"
 	"github.com/philiplambok/task-api/internal/user/create"
 	"github.com/philiplambok/task-api/internal/user/profile"
-	"github.com/philiplambok/task-api/internal/user/shared/repository"
+	"github.com/philiplambok/task-api/internal/user/common/repository"
 	"gorm.io/gorm"
 )
 
@@ -22,7 +22,7 @@ func NewEndpoint(db *gorm.DB, jwtSecret string) *chi.Mux {
 	// Profile feature (requires authentication)
 	profileRepo := repository.NewRepository(db)
 	profileHandler := profile.NewHandler(profileRepo)
-	router.With(middleware.JWTAuth(jwtSecret)).Get("/profile", profileHandler.GetProfile)
+	router.With(login.JWTAuth(jwtSecret)).Get("/profile", profileHandler.GetProfile)
 
 	// Future features will be registered here:
 	// List feature

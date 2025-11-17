@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/philiplambok/task-api/internal/auth/shared/datamodel"
+	"github.com/philiplambok/task-api/internal/auth/common/datamodel"
 )
 
 var ErrInvalidCredentials = errors.New("invalid credentials")

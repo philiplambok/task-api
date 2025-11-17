@@ -3,8 +3,8 @@ package login
 import (
 	"context"
 
-	"github.com/philiplambok/task-api/internal/auth/shared/datamodel"
-	"github.com/philiplambok/task-api/internal/auth/shared/domain"
+	"github.com/philiplambok/task-api/internal/auth/common/datamodel"
+	"github.com/philiplambok/task-api/internal/auth/common/domain"
 )
 
 // Querier defines the interface for querying user data

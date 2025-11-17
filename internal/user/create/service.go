@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/philiplambok/task-api/internal/user/shared/datamodel"
-	"github.com/philiplambok/task-api/internal/user/shared/domain"
+	"github.com/philiplambok/task-api/internal/user/common/datamodel"
+	"github.com/philiplambok/task-api/internal/user/common/domain"
 )
 
 // Querier defines the interface for querying user data

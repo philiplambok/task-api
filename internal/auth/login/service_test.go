@@ -9,8 +9,8 @@ import (
 	. "github.com/onsi/gomega"
 	"go.uber.org/mock/gomock"
 
-	"github.com/philiplambok/task-api/internal/auth/shared/datamodel"
-	"github.com/philiplambok/task-api/internal/auth/shared/domain"
+	"github.com/philiplambok/task-api/internal/auth/common/datamodel"
+	"github.com/philiplambok/task-api/internal/auth/common/domain"
 )
 
 var _ = Describe("Service.CreateUserAuthToken", func() {

@@ -14,8 +14,8 @@ import (
 	"go.uber.org/mock/gomock"
 
 	v1 "github.com/philiplambok/task-api/internal/pkg/api/v1"
-	"github.com/philiplambok/task-api/internal/user/shared/datamodel"
-	"github.com/philiplambok/task-api/internal/user/shared/domain"
+	"github.com/philiplambok/task-api/internal/user/common/datamodel"
+	"github.com/philiplambok/task-api/internal/user/common/domain"
 )
 
 var _ = Describe("Handler.CreateUser", func() {

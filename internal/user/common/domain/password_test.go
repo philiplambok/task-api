@@ -3,7 +3,7 @@ package domain_test
 import (
 	"testing"
 
-	"github.com/philiplambok/task-api/internal/user/shared/domain"
+	"github.com/philiplambok/task-api/internal/user/common/domain"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
