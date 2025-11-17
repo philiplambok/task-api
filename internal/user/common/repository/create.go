@@ -13,16 +13,16 @@ import (
 
 // CreateUser creates a new user in the database and returns the created_at timestamp
 func (r *Repository) CreateUser(ctx context.Context, params datamodel.CreateUser) (time.Time, error) {
-	var createdAt time.Time
+	var result datamodel.CreateUserResult
 
-	// Use raw SQL to insert and return the created_at timestamp
-	query := `
+	// Use raw SQL to insert and return the user id and created_at timestamp
+	userQuery := `
 		INSERT INTO users (email, password_digest, status, created_at, updated_at)
 		VALUES ($1, $2, $3, NOW(), NOW())
-		RETURNING created_at
+		RETURNING id, created_at
 	`
 
-	err := r.db.WithContext(ctx).Raw(query, params.Email, params.PasswordDigest, commondatamodel.UserActive).Scan(&createdAt).Error
+	err := r.db.WithContext(ctx).Raw(userQuery, params.Email, params.PasswordDigest, commondatamodel.UserActive).Scan(&result).Error
 	if err != nil {
 		// Check if it's a unique constraint violation on email
 		var pgErr *pgconn.PgError
@@ -32,7 +32,18 @@ func (r *Repository) CreateUser(ctx context.Context, params datamodel.CreateUser
 		return time.Time{}, err
 	}
 
-	return createdAt, nil
+	// Create default list for the user
+	listQuery := `
+		INSERT INTO lists (user_id, name, created_at, updated_at)
+		VALUES ($1, $2, NOW(), NOW())
+	`
+
+	err = r.db.WithContext(ctx).Exec(listQuery, result.ID, commondatamodel.DefaultListName).Error
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	return result.CreatedAt, nil
 }
 
 // isEmailDuplicateError checks if the PostgreSQL error is a unique constraint violation on the email column

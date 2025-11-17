@@ -8,6 +8,7 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	commondatamodel "github.com/philiplambok/task-api/internal/common/datamodel"
 	"github.com/philiplambok/task-api/internal/user/common/datamodel"
 	"github.com/philiplambok/task-api/internal/user/common/domain"
 	"github.com/pressly/goose/v3"
@@ -102,6 +103,52 @@ var _ = Describe("CreateUser", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(count).To(Equal(int64(1)))
 		})
+
+		It("should create a default list for the user", func() {
+			params := datamodel.CreateUser{
+				Email: "test3@example.com",
+			}
+
+			_, err := repository.CreateUser(ctx, params)
+			Expect(err).NotTo(HaveOccurred())
+
+			// Get the user ID
+			var userID int64
+			err = db.Raw("SELECT id FROM users WHERE email = ?", params.Email).Scan(&userID).Error
+			Expect(err).NotTo(HaveOccurred())
+
+			// Verify default list exists for the user
+			var listCount int64
+			err = db.Raw("SELECT COUNT(*) FROM lists WHERE user_id = ? AND name = ?",
+				userID, commondatamodel.DefaultListName).Scan(&listCount).Error
+			Expect(err).NotTo(HaveOccurred())
+			Expect(listCount).To(Equal(int64(1)))
+		})
+
+		It("should create default list with correct timestamps", func() {
+			params := datamodel.CreateUser{
+				Email: "test4@example.com",
+			}
+
+			createdAt, err := repository.CreateUser(ctx, params)
+			Expect(err).NotTo(HaveOccurred())
+
+			// Get the user ID
+			var userID int64
+			err = db.Raw("SELECT id FROM users WHERE email = ?", params.Email).Scan(&userID).Error
+			Expect(err).NotTo(HaveOccurred())
+
+			// Verify list timestamps
+			var listResult struct {
+				CreatedAt time.Time
+				UpdatedAt time.Time
+			}
+			err = db.Raw("SELECT created_at, updated_at FROM lists WHERE user_id = ?", userID).Scan(&listResult).Error
+			Expect(err).NotTo(HaveOccurred())
+			Expect(listResult.CreatedAt).NotTo(BeZero())
+			Expect(listResult.UpdatedAt).NotTo(BeZero())
+			Expect(listResult.CreatedAt).To(BeTemporally("~", createdAt, 1*time.Second))
+		})
 	})
 
 	When("creating a user with duplicate email", func() {
@@ -125,8 +172,13 @@ var _ = Describe("CreateUser", func() {
 
 	When("database operation fails", func() {
 		It("should return error when table doesn't exist", func() {
+			// Drop the lists and tasks tables first due to foreign key constraints
+			err := db.Exec("DROP TABLE IF EXISTS tasks").Error
+			Expect(err).NotTo(HaveOccurred())
+			err = db.Exec("DROP TABLE IF EXISTS lists").Error
+			Expect(err).NotTo(HaveOccurred())
 			// Drop the users table to simulate error
-			err := db.Exec("DROP TABLE users").Error
+			err = db.Exec("DROP TABLE users").Error
 			Expect(err).NotTo(HaveOccurred())
 
 			params := datamodel.CreateUser{
@@ -137,6 +189,20 @@ var _ = Describe("CreateUser", func() {
 			Expect(err).To(HaveOccurred())
 			Expect(createdAt).To(BeZero())
 			Expect(err).NotTo(MatchError(domain.ErrDuplicateEmail))
+		})
+
+		It("should return error when lists table doesn't exist", func() {
+			// Drop the lists table to simulate error
+			err := db.Exec("DROP TABLE lists").Error
+			Expect(err).NotTo(HaveOccurred())
+
+			params := datamodel.CreateUser{
+				Email: "test-no-list@example.com",
+			}
+			createdAt, err := repository.CreateUser(ctx, params)
+
+			Expect(err).To(HaveOccurred())
+			Expect(createdAt).To(BeZero())
 		})
 	})
 

@@ -8,6 +8,12 @@ type CreateUser struct {
 	PasswordDigest string
 }
 
+// CreateUserResult represents the result of creating a new user
+type CreateUserResult struct {
+	ID        int64
+	CreatedAt time.Time
+}
+
 // User represents a user retrieved from the database
 type User struct {
 	ID             int64
