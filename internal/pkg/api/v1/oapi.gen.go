@@ -97,35 +97,35 @@ type User struct {
 // PostV1AuthLoginJSONRequestBody defines body for PostV1AuthLogin for application/json ContentType.
 type PostV1AuthLoginJSONRequestBody = LoginRequest
 
+// PostV1RegistrationJSONRequestBody defines body for PostV1Registration for application/json ContentType.
+type PostV1RegistrationJSONRequestBody = CreateUserRequest
+
 // PostV1TasksJSONRequestBody defines body for PostV1Tasks for application/json ContentType.
 type PostV1TasksJSONRequestBody = CreateTaskRequest
-
-// PostV1UsersJSONRequestBody defines body for PostV1Users for application/json ContentType.
-type PostV1UsersJSONRequestBody = CreateUserRequest
 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+xYbU/jOBD+Kz7fSfelL0lbytFPx1YsCjqxaHnZ0yG0cuNp68Wxs/ak0F31v5/spKVp",
-	"U7pwwC0SnyjOePz4mXlmJvlOY52kWoFCS3vfqY3HkDD/s2+AIZwxe/0RvmZg0S2mRqdgUIA34cC4FArc",
-	"b7hlSSqB9mgraO3Uw1a9HdIaHWqTMKQ9yhkCrVGcps7GohFqRGc1ysHGRqQotCq7+WQEAnHwDIxBWTEB",
-	"wnWcJaCQOXMy1IbgGMj+SVTlGQXKFWh97X4gkNToLxBj2eG6k1mNGviaCQOc9i4Lj1cLMz1wTtxZy2TZ",
-	"VCsLFWwxZOuryOy1+/ubgSHt0V+bdwFpFtFoOr/rYNziOpYVK3/oZsTnFszG8ELChCwTOAYp9Z832kje",
-	"iHVSRXvKrL3Rhpc3nkKcGTgpnoWt9i/LybHYc4+/vlZD4ezXMuWxvleoyq9bW95QefY2Nh8W/8yC2RZ/",
-	"53cNrt/4+PgfGKPvAQvu8fpyAtay0YqqDhxxRFiyOHgb1XM3W+HnMKrwHwK+Jrr/0iOhfmqlbVPDPbd6",
-	"WAjgNhUG7D5WtY2wHu6ehUGvHfSC4J/VBlJHkVR2EdTXsFIVYHo0HhzG4oM4is6/ReGxiGykPu7E/agb",
-	"Xad/X/SP9hqNRpW3/5YkczS1pZs+PnHOiv5Q5jD29YZ/Zk9J4s/dzsVKnoetNnR2urt1+GNvUA9bvF1n",
-	"nZ1uvdPqdsNOuNsJgqDSj/3M9colh0xaWNgOtJbA1PPMEMJLz7u9w1JbDmhVFpwXGfnALOg+IgseU4s2",
-	"1I57LzWrUetKlcDpqdNUfqUBMANmP8Px3X/v57iPPp3RWj6j+jj5p3doxogpnTnHQg21H67y8NH9k4hY",
-	"MBNvPQFjfXrSsBE0AndnnYJiqaA92vZLruzh2ANqTsImy3DclK7W+RjovIS7SPiYR5z26Im2eBE64L4o",
-	"0pwRsPhO86kPllYIyu9kaSpF7Pc2v9hcKXld2VZ1Sm1kVuYdTQZ+IS/HHn0rCJ767KLY+8NLas+7AbFZ",
-	"HIO1w0w6ZjtPCKA8slQAeMc4KVgndRKpCZOCk6PTD8dEG5Iw6RQAC5scX/hy+M6VyyRtxDfgSwBjAxwU",
-	"Ciath9RqvSSk1GgXLzaQQA4UCpySOrlwwIqyzIQE7oDtvGQsI4VgFJOFbkk+CfqqkSUJM9NFwjHFyQiQ",
-	"OG4djTkekjdht8FJ2L0t2W3qPfNGz6Pc9dfpH5Jv+CwANtPunpOibi9JWU7fxPxjYnbYhLVCjTYk5JvA",
-	"twq8GAto77I8EFxeza6W9Z+nNGFEwQ3B+UcSJ3c3iG+V+7k3ek65L39e+V/kXnpFrsoOC+YVy33v5fD1",
-	"tRpKETtw+fcOJg0wPiVwKyy+Ne4HNe6ScLP5m/RCuM3U6KHIX7xGUKHfQ5jL96SwfMa5d/VL0yYZFaCJ",
-	"ATQCJpWCeh39Kei8HMxjjeS9zpTD6GnkGixRGnNhvca2dFgeRoH7FP/dzjPEHTv7NwAA///Hqe8qehkA",
-	"AA==",
+	"H4sIAAAAAAAC/+xYbW/bNhD+Kxw3YF/8ItmOu/rT0iANHAxpkLcOC4KCFs82G4lUyZMTt/B/H46SHctW",
+	"7CVL0gbopzjU8fjwuXvuTvrGI5OkRoNGx3vfuIvGkAj/c8+CQDgT7voEvmTgkBZTa1KwqMCbSBAyVhro",
+	"N9yKJI2B93graO3Uw1a9HfIaHxqbCOQ9LgUCr3GcpmTj0Co94rMal+Aiq1JURpfdfLQKgRE8C2PQTk2A",
+	"SRNlCWgUZM6GxjIcA9s97ld5RoXxCrQ9Qz8QWGrNZ4iw7HDdyazGLXzJlAXJe5eFx6uFmRmQEzprmSyX",
+	"Gu2ggi2BYn0Vhbumv79ZGPIe/7V5F5BmEY0m+V0HQ4vrWFas/KH3Iz53YO8NLyRCxWUCxxDH5s8bY2PZ",
+	"iExSRXsqnLsxVpY3nkKUWTgunoWt9i/LybHYs8HfntFDRfZrmfJY3ytU5detLW+oPHsbmw+Lf+bAbos/",
+	"+V2D6zc+Pv771poNYIEery8n4JwYrahqn4hjyrHFwduonrvZCj+HUYX/APA10f2XGSn9Qyttmxo23Oph",
+	"IYDbVFlwu1jVNsJ6+OYsDHrtoBcE/6w2kDqqpLKLoLmGlaoA08Px4CBSH9Rh//xrPzxSfdfXJzvRXr/b",
+	"v07/vtg7fNtoNKq8/b8kmaOpLd308YlzVvSHMoeRrzfyk3hKEn/sdq5W8jxstaGz031Thz/eDuphS7br",
+	"orPTrXda3W7YCd90giCo9OM+SbNyyaGIHSxsB8bEIPTzzBDKS8+7vcNSWw5oVRacFxn5wCzoPiILHlOL",
+	"7qkdGy81q3FHpUrh9JQ0lV9pAMKC3c1wfPff+znuw49nvJbPqD5O/ukdmjFiymfkWOmh8cNVHj6+e9xn",
+	"DuzEW0/AOp+ePGwEjYDubFLQIlW8x9t+icoejj2g5iRsigzHzZhqnY+ByUs4RcLHvC95jx8bhxchAfdF",
+	"keeMgMN3Rk59sIxG0H6nSNNYRX5v87PLlZLXlW1Vp9RGZmXe0WbgF/Jy7NG3guCpzy6KvT+8pPa8GzCX",
+	"RRE4N8xiYrbzhADKI0sFgHdCsoJ1Vmd9PRGxkuzw9MMRM5YlIiYFwMImxxe+HL5zTZlkrPoKcglgZEGC",
+	"RiVi5yG1Wi8JKbWG4iUGMbB9jQqnrM4uCFhRloWKQRKwnZeMZV8jWC3iQrcsnwR91ciSRNjpIuGElmwE",
+	"yIhbojHHw/ImTBtIwhZGyqFdvD1sEvHJsu3z6Hj97es/iTl8FgAbssOBZUUVXxJ2PH0d0n77cvjoDTFW",
+	"EYHLX4dEbEHIKYNb5fCnrh+k61yAYJlgGm5YNh+1Scgo3LXbpuAzb/Sc0l3+LvZdpFv61lTBMz1/xdL9",
+	"/l2ZsCnnlB7d01l+Knqroov5nvcuy5P95dXsalnweUoXcsf5106SO2nfNVNrhip/ERtBheoPAC9Calbu",
+	"uLB8xjl49cvTfX2zAM0soFUwqZTh60jzoPNyMI8Msvcm04TR0ygNOKYN5p30NWb3QXk4Bek72u9uniF0",
+	"7OzfAAAA///aqjY3ihkAAA==",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

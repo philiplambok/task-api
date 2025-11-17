@@ -3,9 +3,9 @@ info:
   version: 1.0.0
   title: API server
 paths:
-  /v1/users:
+  /v1/registration:
     post:
-      summary: Create a new user
+      summary: Register a new user
       requestBody:
         required: true
         content:
