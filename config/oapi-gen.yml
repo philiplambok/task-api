@@ -1,0 +1,7 @@
+package: v1
+generate:
+  models: true
+  embedded-spec: true
+output: internal/pkg/api/v1/oapi.gen.go
+output-options:
+  skip-prune: true
