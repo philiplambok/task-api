@@ -14,11 +14,26 @@ import (
 	"time"
 
 	"github.com/getkin/kin-openapi/openapi3"
+	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 const (
 	BearerAuthScopes = "bearerAuth.Scopes"
 )
+
+// CreateTaskRequest defines model for CreateTaskRequest.
+type CreateTaskRequest struct {
+	Deadline    *openapi_types.Date `json:"deadline,omitempty"`
+	Description *string             `json:"description,omitempty"`
+	Title       string              `json:"title"`
+}
+
+// CreateTaskResponse defines model for CreateTaskResponse.
+type CreateTaskResponse struct {
+	Data struct {
+		Task Task `json:"task"`
+	} `json:"data"`
+}
 
 // CreateUserRequest defines model for CreateUserRequest.
 type CreateUserRequest struct {
@@ -63,6 +78,16 @@ type LoginResponse struct {
 	} `json:"data"`
 }
 
+// Task defines model for Task.
+type Task struct {
+	CreatedAt   time.Time           `json:"created_at"`
+	Deadline    *openapi_types.Date `json:"deadline,omitempty"`
+	Description *string             `json:"description,omitempty"`
+	Id          string              `json:"id"`
+	IsDone      bool                `json:"is_done"`
+	Title       string              `json:"title"`
+}
+
 // User defines model for User.
 type User struct {
 	CreatedAt time.Time `json:"created_at"`
@@ -72,28 +97,35 @@ type User struct {
 // PostV1AuthLoginJSONRequestBody defines body for PostV1AuthLogin for application/json ContentType.
 type PostV1AuthLoginJSONRequestBody = LoginRequest
 
+// PostV1TasksJSONRequestBody defines body for PostV1Tasks for application/json ContentType.
+type PostV1TasksJSONRequestBody = CreateTaskRequest
+
 // PostV1UsersJSONRequestBody defines body for PostV1Users for application/json ContentType.
 type PostV1UsersJSONRequestBody = CreateUserRequest
 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+yXbW/bNhDHvwrHDdgbP8lpOlSvlgZpIGNIg6bOhgXBwIhnmy1FquTJiVv4uw9Hyo4d",
-	"K/GaJV4L7FUcPv745/3vqC88t0VpDRj0PP3CfT6BQoSfhw4EwtCDewefKvBIjaWzJThUEIZAIZQOP25E",
-	"UWrgKZ+A1vbXa+u07OS24C2Os5I6PDplxnze4qXw/to6uT7xDPLKwWndl/T3fuAtPrKuEMjT2zkPrHdo",
-	"zUjReGXN06w9b3EHnyrlQPL0oj5ua3VC496Xy4Xs1QfIkSBX1fSlNR425ZQCxWZr5cHR358cjHjKf+ze",
-	"3li3vq4urbuBGyZustwZFTZtIj5yzj4AC9S92VyA92IM6/ofkXBMebbceJvUi2W24keMJv5jwO9J7t/s",
-	"WJlv2mnb3PDAqb7uCuCmVA78Aa5z93v9/XaStJNf3ie9dK+X9np/rpJLgdBGVUCTFGg/wp2sALPB5Oo4",
-	"V2/VIBt+zpITlfnMvNvPD7OX2cfyj/PDwatOp9O02r8LkgVNa+Wkjw+cYc2yrmEe8o38S9wn4stHiPiY",
-	"KLwnalb4Go/uKUgVzs5IzXikKxAO3EGFk9v/3iy4B7+/561Yvmil2HtLM0Es+ZwWVmZkaT4qDAc4OM2Y",
-	"BzcNo6fgfKgePOn0Oj06sy3BiFLxlO+FJgp4nASg7jTpigonXU1RHu7ARvPSTYRakEme8lPr8Twh8GAH",
-	"HhUBj6+tnIXLsgbBhJmiLLXKw9zuBx8LWYyobfG2lkDm67qjqyA0RCMG+n6v99R71zYPm0vwuVNlLMYx",
-	"DzBf5Tl4P6o0KfviCQHWi1UDwGshWa06a7PMTIVWkg3O3p4w61ghNDkAlmMiX7I7vqGhSLJOfQa5Apg7",
-	"kGBQCe0DUr+/S6TSWbovcaWBHRlUOGNtdk5gYUM2EkqDJLD9Xd5lZhCcEbr2LYtvgJA1qqIQbrYMOGEk",
-	"GwMy0pZkjDwspl+aQBamnOy3uXcYBj2Pczdf2v/IvsmzADwQDx4cq/P2ipX17Psw86vd8dHXgFY5wcWn",
-	"r9AOhJwxuFEe/3fyVzk5BicTzMA1qxaPqqVxu6WzI6XD43IMDf49hoV9T+uRz1gI73503GejGpo5QKdg",
-	"2mio/776kJmU98qM78mghPlid5gnFtkbWxliDDJKC54Zi9FY31L41s9Xnl6sP1wvLueXq9F9vF6dQIYQ",
-	"/9kvIoS2nf8dAAD//9Oyw+ymEQAA",
+	"H4sIAAAAAAAC/+xYbU/jOBD+Kz7fSfelL0lbytFPx1YsCjqxaHnZ0yG0cuNp68Wxs/ak0F31v5/spKVp",
+	"U7pwwC0SnyjOePz4mXlmJvlOY52kWoFCS3vfqY3HkDD/s2+AIZwxe/0RvmZg0S2mRqdgUIA34cC4FArc",
+	"b7hlSSqB9mgraO3Uw1a9HdIaHWqTMKQ9yhkCrVGcps7GohFqRGc1ysHGRqQotCq7+WQEAnHwDIxBWTEB",
+	"wnWcJaCQOXMy1IbgGMj+SVTlGQXKFWh97X4gkNToLxBj2eG6k1mNGviaCQOc9i4Lj1cLMz1wTtxZy2TZ",
+	"VCsLFWwxZOuryOy1+/ubgSHt0V+bdwFpFtFoOr/rYNziOpYVK3/oZsTnFszG8ELChCwTOAYp9Z832kje",
+	"iHVSRXvKrL3Rhpc3nkKcGTgpnoWt9i/LybHYc4+/vlZD4ezXMuWxvleoyq9bW95QefY2Nh8W/8yC2RZ/",
+	"53cNrt/4+PgfGKPvAQvu8fpyAtay0YqqDhxxRFiyOHgb1XM3W+HnMKrwHwK+Jrr/0iOhfmqlbVPDPbd6",
+	"WAjgNhUG7D5WtY2wHu6ehUGvHfSC4J/VBlJHkVR2EdTXsFIVYHo0HhzG4oM4is6/ReGxiGykPu7E/agb",
+	"Xad/X/SP9hqNRpW3/5YkczS1pZs+PnHOiv5Q5jD29YZ/Zk9J4s/dzsVKnoetNnR2urt1+GNvUA9bvF1n",
+	"nZ1uvdPqdsNOuNsJgqDSj/3M9colh0xaWNgOtJbA1PPMEMJLz7u9w1JbDmhVFpwXGfnALOg+IgseU4s2",
+	"1I57LzWrUetKlcDpqdNUfqUBMANmP8Px3X/v57iPPp3RWj6j+jj5p3doxogpnTnHQg21H67y8NH9k4hY",
+	"MBNvPQFjfXrSsBE0AndnnYJiqaA92vZLruzh2ANqTsImy3DclK7W+RjovIS7SPiYR5z26Im2eBE64L4o",
+	"0pwRsPhO86kPllYIyu9kaSpF7Pc2v9hcKXld2VZ1Sm1kVuYdTQZ+IS/HHn0rCJ767KLY+8NLas+7AbFZ",
+	"HIO1w0w6ZjtPCKA8slQAeMc4KVgndRKpCZOCk6PTD8dEG5Iw6RQAC5scX/hy+M6VyyRtxDfgSwBjAxwU",
+	"Ciath9RqvSSk1GgXLzaQQA4UCpySOrlwwIqyzIQE7oDtvGQsI4VgFJOFbkk+CfqqkSUJM9NFwjHFyQiQ",
+	"OG4djTkekjdht8FJ2L0t2W3qPfNGz6Pc9dfpH5Jv+CwANtPunpOibi9JWU7fxPxjYnbYhLVCjTYk5JvA",
+	"twq8GAto77I8EFxeza6W9Z+nNGFEwQ3B+UcSJ3c3iG+V+7k3ek65L39e+V/kXnpFrsoOC+YVy33v5fD1",
+	"tRpKETtw+fcOJg0wPiVwKyy+Ne4HNe6ScLP5m/RCuM3U6KHIX7xGUKHfQ5jL96SwfMa5d/VL0yYZFaCJ",
+	"ATQCJpWCeh39Kei8HMxjjeS9zpTD6GnkGixRGnNhvca2dFgeRoH7FP/dzjPEHTv7NwAA///Hqe8qehkA",
+	"AA==",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

@@ -2,38 +2,44 @@ package endpoint
 
 import (
 	"github.com/go-chi/chi/v5"
-	"github.com/philiplambok/task-api/internal/auth/login"
+	"github.com/philiplambok/task-api/internal/user/common/repository"
 	"github.com/philiplambok/task-api/internal/user/create"
 	"github.com/philiplambok/task-api/internal/user/profile"
-	"github.com/philiplambok/task-api/internal/user/common/repository"
 	"gorm.io/gorm"
 )
 
-// NewEndpoint creates and configures the user module router
-// This is the single source of truth for all user module endpoints
-func NewEndpoint(db *gorm.DB, jwtSecret string) *chi.Mux {
+// NewPublicEndpoint creates and configures the public user endpoints (no authentication required)
+func NewPublicEndpoint(db *gorm.DB) *chi.Mux {
 	router := chi.NewMux()
 
-	// Create feature
+	// Create feature - public endpoint
 	createRepo := repository.NewRepository(db)
 	createHandler := create.NewHandler(createRepo)
 	router.Post("/", createHandler.CreateUser)
 
+	return router
+}
+
+// NewProtectedEndpoint creates and configures the protected user endpoints (authentication required)
+// Authentication middleware should be applied at the transport layer
+func NewProtectedEndpoint(db *gorm.DB) *chi.Mux {
+	router := chi.NewMux()
+
 	// Profile feature (requires authentication)
 	profileRepo := repository.NewRepository(db)
 	profileHandler := profile.NewHandler(profileRepo)
-	router.With(login.JWTAuth(jwtSecret)).Get("/profile", profileHandler.GetProfile)
+	router.Get("/profile", profileHandler.GetProfile)
 
-	// Future features will be registered here:
-	// List feature
-	// listRepo := list.NewRepository(db)
-	// listHandler := list.NewHandler(listRepo)
-	// router.Get("/", listHandler.ListUsers)
+	// Future protected features will be registered here:
+	// Update feature
+	// updateRepo := repository.NewRepository(db)
+	// updateHandler := update.NewHandler(updateRepo)
+	// router.Put("/profile", updateHandler.UpdateUser)
 
-	// Show feature
-	// showRepo := show.NewRepository(db)
-	// showHandler := show.NewHandler(showRepo)
-	// router.Get("/{id}", showHandler.ShowUser)
+	// Delete feature
+	// deleteRepo := repository.NewRepository(db)
+	// deleteHandler := delete.NewHandler(deleteRepo)
+	// router.Delete("/profile", deleteHandler.DeleteUser)
 
 	return router
 }

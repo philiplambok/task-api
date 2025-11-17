@@ -9,8 +9,10 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"github.com/philiplambok/task-api/internal"
+	"github.com/philiplambok/task-api/internal/auth/login"
 	authendpoint "github.com/philiplambok/task-api/internal/auth/shared/endpoint"
 	v1 "github.com/philiplambok/task-api/internal/pkg/api/v1"
+	taskendpoint "github.com/philiplambok/task-api/internal/task/shared/endpoint"
 	userendpoint "github.com/philiplambok/task-api/internal/user/shared/endpoint"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"gorm.io/gorm"
@@ -53,10 +55,21 @@ func NewHTTPServer(config internal.Config, db *gorm.DB) *HTTPServer {
 	))
 
 	authEndpoint := authendpoint.NewEndpoint(db, config.JWT.Secret, config.JWT.ExpirationHours)
-	userEndpoint := userendpoint.NewEndpoint(db, config.JWT.Secret)
+	publicUserEndpoint := userendpoint.NewPublicEndpoint(db)
+	protectedUserEndpoint := userendpoint.NewProtectedEndpoint(db)
+	taskEndpoint := taskendpoint.NewEndpoint(db)
+
 	routes.Route("/v1", func(v1 chi.Router) {
+		// Public endpoints (no authentication required)
 		v1.Mount("/auth", authEndpoint)
-		v1.Mount("/users", userEndpoint)
+		v1.Mount("/users", publicUserEndpoint)
+
+		// Protected endpoints (authentication required)
+		v1.Group(func(r chi.Router) {
+			r.Use(login.JWTAuth(config.JWT.Secret))
+			r.Mount("/users", protectedUserEndpoint)
+			r.Mount("/tasks", taskEndpoint)
+		})
 	})
 
 	return &HTTPServer{
